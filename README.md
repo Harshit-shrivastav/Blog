@@ -106,13 +106,36 @@ Using **Neon**? No special setup needed:
 
 ### 3. Deploy on Vercel
 
+**Vercel Build & Run Settings:**
+
+| Setting | Value |
+|---------|-------|
+| Framework | Next.js |
+| Build Command | `npx prisma generate && npx prisma db push && next build` |
+| Output Directory | `.next` |
+| Install Command | `npm install` |
+
+The build command automatically:
+1. Generates the Prisma client
+2. Pushes the database schema (creates tables if they don't exist)
+3. Builds the Next.js app
+
+> **Note:** `prisma db push` is idempotent — it only adds missing tables/columns. Already deployed? It won't destroy existing data.
+
+**Steps:**
+
 1. Click the **Deploy with Vercel** button above, or:
 2. Go to [vercel.com](https://vercel.com) and sign in
 3. Click "Add New..." → Project
 4. Import your GitHub repository
-5. Add environment variables:
-   - `DATABASE_URL` = Your PostgreSQL connection string (use pooler for Supabase)
-   - `JWT_SECRET` = Generate with `openssl rand -base64 32`
+5. Under **Environment Variables**, add:
+   | Variable | Value |
+   |----------|-------|
+   | `DATABASE_URL` | Your PostgreSQL connection string (use pooler for Supabase) |
+   | `JWT_SECRET` | Generate with `openssl rand -base64 32` |
+
+   > ⚠️ **Critical:** Check **"Available during build"** for `DATABASE_URL` and `JWT_SECRET` so Prisma can access the database during the build step.
+
 6. Click Deploy
 
 ### 4. Set Up Admin Account (Production)
