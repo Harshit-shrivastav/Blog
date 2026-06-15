@@ -1,0 +1,190 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model SiteSettings {
+  id            String   @id @default(cuid())
+  siteName      String   @default("My Blog")
+  tagline       String   @default("")
+  bio           String   @default("")
+  accentColor   String   @default("#0a0a0a")
+  adminSlug     String   @default("admin-dashboard")
+  socialLinks   String   @default("{}")
+  theme         String   @default("system")
+  customCss            String   @default("")
+  globalCommentsEnabled Boolean @default(true)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model Admin {
+  id              String   @id @default(cuid())
+  displayName     String   @default("Admin")
+  email           String   @unique
+  passwordHash    String
+  avatar          String?
+  resetToken      String?
+  resetTokenExpiry DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model BlogSeries {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String   @default("")
+  coverImage  String?
+  postCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  posts       BlogPost[]
+}
+
+model BlogPost {
+  id              String     @id @default(cuid())
+  title           String
+  slug            String     @unique
+  content         String     @default("")
+  coverImage      String?
+  excerpt         String     @default("")
+  tags            String     @default("[]")
+  seoTitle        String?
+  seoDescription  String?
+  ogImage         String?
+  status          String     @default("draft")
+  publishedAt     DateTime?
+  scheduledAt     DateTime?
+  viewCount       Int        @default(0)
+  likeCount       Int        @default(0)
+  commentsEnabled Boolean    @default(true)
+  seriesId        String?
+  series          BlogSeries? @relation(fields: [seriesId], references: [id])
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  comments        Comment[]
+  reactions       BlogReaction[]
+}
+
+model BlogReaction {
+  id          String   @id @default(cuid())
+  blogId      String
+  blog        BlogPost @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  emoji       String
+  fingerprint String
+  createdAt   DateTime @default(now())
+
+  @@unique([blogId, emoji, fingerprint])
+  @@index([blogId])
+}
+
+model Comment {
+  id          String   @id @default(cuid())
+  blogId      String
+  blog        BlogPost @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  authorName  String
+  content     String
+  fingerprint String
+  isApproved  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([blogId])
+}
+
+model Note {
+  id          String       @id @default(cuid())
+  content     String       @default("")
+  images      String       @default("[]")
+  audioFiles  String       @default("[]")
+  audioCaptions String     @default("{}")
+  imageCaptions String     @default("{}")
+  isPublic    Boolean      @default(true)
+  commentsEnabled Boolean    @default(true)
+  likeCount   Int          @default(0)
+  saveCount   Int          @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  comments    NoteComment[]
+}
+
+model NoteComment {
+  id          String   @id @default(cuid())
+  noteId      String
+  note        Note     @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  authorName  String
+  content     String
+  fingerprint String
+  isApproved  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([noteId])
+}
+
+model Interaction {
+  id          String   @id @default(cuid())
+  targetType  String
+  targetId    String
+  action      String
+  fingerprint String
+  createdAt   DateTime @default(now())
+
+  @@unique([targetType, targetId, action, fingerprint])
+  @@index([targetType, targetId, action])
+}
+
+model NewsletterSubscriber {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  status        String   @default("active")
+  subscribedAt  DateTime @default(now())
+  unsubscribedAt DateTime?
+}
+
+model SmtpConfig {
+  id        String   @id @default(cuid())
+  host      String   @default("")
+  port      Int      @default(587)
+  username  String   @default("")
+  password  String   @default("")
+  fromName  String   @default("")
+  fromEmail String   @default("")
+  useTls    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  action    String
+  details   String   @default("{}")
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model WebHistory {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String
+  type      String   @default("blog")
+  viewedAt  DateTime @default(now())
+
+  @@index([viewedAt])
+}

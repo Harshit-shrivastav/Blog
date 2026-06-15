@@ -1,0 +1,760 @@
+/* ===== Tiptap Editor ProseMirror Styles ===== */
+/* Scoped under .tiptap to avoid leaking into other content */
+
+.tiptap {
+  outline: none;
+  font-family: var(--font-dm-sans), system-ui, -apple-system, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  letter-spacing: -0.005em;
+  color: var(--foreground);
+  max-width: 100%;
+  min-height: 100%;
+}
+
+/* Remove focus outline from editor area */
+.tiptap:focus {
+  outline: none;
+}
+
+/* ===== Selection ===== */
+.tiptap ::selection {
+  background: var(--selection-bg, oklch(0.12 0 0 / 12%));
+  color: var(--selection-fg, inherit);
+}
+
+/* ===== Headings ===== */
+.tiptap h1,
+.tiptap h2,
+.tiptap h3,
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+  font-family: var(--font-lora), Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.tiptap h1 {
+  font-size: 2.25rem;
+  letter-spacing: -0.025em;
+  margin-top: 0;
+}
+
+.tiptap h2 {
+  font-size: 1.625rem;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--foreground);
+}
+
+.tiptap h3 {
+  font-size: 1.375rem;
+}
+
+.tiptap h4 {
+  font-size: 1.125rem;
+}
+
+.tiptap h5 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.tiptap h6 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+}
+
+/* ===== Paragraphs ===== */
+.tiptap p {
+  margin-bottom: 1.25em;
+  line-height: 1.75;
+}
+
+.tiptap p:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== Bold ===== */
+.tiptap strong {
+  font-weight: 700;
+}
+
+/* ===== Italic ===== */
+.tiptap em {
+  font-style: italic;
+}
+
+/* ===== Underline ===== */
+.tiptap u {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+/* ===== Strikethrough ===== */
+.tiptap s {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+/* ===== Inline Code ===== */
+.tiptap code {
+  background: var(--muted);
+  padding: 0.15em 0.45em;
+  border-radius: 4px;
+  font-size: 0.875em;
+  font-family: var(--font-geist-mono), "Fira Code", "JetBrains Mono", monospace;
+  border: 1px solid var(--border);
+  color: var(--foreground);
+}
+
+/* Code inside pre should not have inline code styling */
+.tiptap pre code {
+  background: none;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  font-size: 0.85em;
+  color: inherit;
+}
+
+/* ===== Links ===== */
+.tiptap a {
+  color: var(--foreground);
+  text-decoration: none;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  background-image: linear-gradient(var(--foreground), var(--foreground));
+  background-size: 0% 1px;
+  background-position: left bottom;
+  background-repeat: no-repeat;
+  transition: background-size 0.3s ease;
+  cursor: pointer;
+}
+
+.tiptap a:hover {
+  background-size: 100% 1px;
+}
+
+/* ===== Images ===== */
+.tiptap img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1.5em auto;
+  display: block;
+  box-shadow: 0 1px 3px oklch(0 0 0 / 4%);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tiptap img:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px oklch(0 0 0 / 8%);
+}
+
+/* Image with ProseMirror-selected node class */
+.tiptap img.ProseMirror-selectednode {
+  outline: 2px solid var(--ring, oklch(0.5 0 0));
+  outline-offset: 4px;
+  border-radius: 0.625rem;
+}
+
+/* Make images center by default when not floated */
+.tiptap img:not([style*="float"]) {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===== Blockquotes ===== */
+.tiptap blockquote {
+  border-left: 3px solid var(--foreground);
+  padding: 0.75rem 1.25rem;
+  margin: 1.5em 0;
+  color: var(--muted-foreground);
+  font-style: italic;
+  background: var(--muted);
+  border-radius: 0 0.375rem 0.375rem 0;
+}
+
+.tiptap blockquote p {
+  margin-bottom: 0.5em;
+}
+
+.tiptap blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== Code Blocks ===== */
+.tiptap pre {
+  background: #1a1a2e;
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  margin: 1.5em 0;
+  overflow-x: auto;
+  font-family: var(--font-geist-mono), "Fira Code", "JetBrains Mono", monospace;
+  font-size: 0.85em;
+  line-height: 1.7;
+  position: relative;
+  border: 1px solid oklch(1 0 0 / 8%);
+}
+
+/* Language label for code blocks */
+.tiptap pre[data-language]::before {
+  content: attr(data-language);
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: oklch(0.7 0 0 / 60%);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Code block syntax highlighting (lowlight/hljs) */
+.tiptap pre .hljs-comment,
+.tiptap pre .hljs-quote {
+  color: oklch(0.6 0.02 260);
+  font-style: italic;
+}
+
+.tiptap pre .hljs-keyword,
+.tiptap pre .hljs-selector-tag,
+.tiptap pre .hljs-addition {
+  color: oklch(0.75 0.18 350);
+}
+
+.tiptap pre .hljs-string,
+.tiptap pre .hljs-attr,
+.tiptap pre .hljs-template-variable {
+  color: oklch(0.75 0.15 150);
+}
+
+.tiptap pre .hljs-number,
+.tiptap pre .hljs-literal,
+.tiptap pre .hljs-type,
+.tiptap pre .hljs-built_in {
+  color: oklch(0.75 0.18 80);
+}
+
+.tiptap pre .hljs-title,
+.tiptap pre .hljs-section,
+.tiptap pre .hljs-title\.function_ {
+  color: oklch(0.8 0.15 250);
+}
+
+.tiptap pre .hljs-variable,
+.tiptap pre .hljs-params {
+  color: oklch(0.75 0.05 250);
+}
+
+.tiptap pre .hljs-meta {
+  color: oklch(0.6 0.05 250);
+}
+
+.tiptap pre .hljs-regexp {
+  color: oklch(0.7 0.2 300);
+}
+
+.tiptap pre .hljs-symbol,
+.tiptap pre .hljs-bullet {
+  color: oklch(0.7 0.15 60);
+}
+
+.tiptap pre .hljs-deletion {
+  color: oklch(0.7 0.2 25);
+}
+
+.tiptap pre .hljs-name,
+.tiptap pre .hljs-tag {
+  color: oklch(0.75 0.15 350);
+}
+
+.tiptap pre .hljs-attribute {
+  color: oklch(0.75 0.15 150);
+}
+
+.tiptap pre .hljs-punctuation {
+  color: oklch(0.65 0 0);
+}
+
+.tiptap pre .hljs-property {
+  color: oklch(0.75 0.12 80);
+}
+
+.tiptap pre .hljs-operator {
+  color: oklch(0.65 0.05 250);
+}
+
+/* ===== Unordered Lists ===== */
+.tiptap ul {
+  padding-left: 1.5em;
+  margin-bottom: 1.25em;
+  list-style-type: disc;
+}
+
+.tiptap li {
+  margin-bottom: 0.5em;
+  line-height: 1.7;
+}
+
+.tiptap li p {
+  margin-bottom: 0.25em;
+}
+
+.tiptap ul li::marker {
+  color: var(--foreground);
+  font-size: 1.1em;
+}
+
+/* Nested unordered lists use different bullets */
+.tiptap ul ul {
+  list-style-type: circle;
+}
+
+.tiptap ul ul ul {
+  list-style-type: square;
+}
+
+/* ===== Ordered Lists ===== */
+.tiptap ol {
+  padding-left: 1.5em;
+  margin-bottom: 1.25em;
+  list-style-type: decimal;
+}
+
+.tiptap ol li::marker {
+  color: var(--muted-foreground);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Nested ordered lists */
+.tiptap ol ol {
+  list-style-type: lower-alpha;
+}
+
+.tiptap ol ol ol {
+  list-style-type: lower-roman;
+}
+
+/* ===== Task Lists ===== */
+.tiptap ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 0;
+}
+
+.tiptap ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.tiptap ul[data-type="taskList"] li > label {
+  flex-shrink: 0;
+  margin-top: 0.3rem;
+  user-select: none;
+}
+
+/* Custom checkbox for task items */
+.tiptap ul[data-type="taskList"] li > label input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 2px solid var(--border);
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  background: transparent;
+  flex-shrink: 0;
+}
+
+.tiptap ul[data-type="taskList"] li > label input[type="checkbox"]:hover {
+  border-color: var(--muted-foreground);
+}
+
+.tiptap ul[data-type="taskList"] li > label input[type="checkbox"]:checked {
+  background: var(--foreground);
+  border-color: var(--foreground);
+}
+
+.tiptap ul[data-type="taskList"] li > label input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 3px;
+  width: 4px;
+  height: 7px;
+  border: solid var(--background);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.tiptap ul[data-type="taskList"] li[data-checked="true"] > div > p {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.tiptap ul[data-type="taskList"] li > div {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ===== Tables ===== */
+.tiptap table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5em 0;
+  overflow: hidden;
+  border-radius: 0.375rem;
+  border: 1px solid var(--border);
+}
+
+.tiptap table td,
+.tiptap table th {
+  border: 1px solid var(--border);
+  padding: 0.625em 0.875em;
+  min-width: 6rem;
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+  text-align: left;
+}
+
+.tiptap table th {
+  background: var(--muted);
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.tiptap table td {
+  font-size: 0.9375rem;
+}
+
+/* Alternating row colors */
+.tiptap table tr:nth-child(even) {
+  background: var(--muted);
+}
+
+.tiptap table tr:nth-child(even) th {
+  background: var(--accent);
+}
+
+/* Selected table cell */
+.tiptap table td.selectedCell,
+.tiptap table th.selectedCell {
+  background: oklch(0.5 0 0 / 10%);
+  outline: 2px solid var(--ring, oklch(0.5 0 0));
+  outline-offset: -2px;
+}
+
+/* Table column resize handle */
+.tiptap .tableWrapper {
+  overflow-x: auto;
+  margin: 1.5em 0;
+}
+
+.tiptap .resize-cursor {
+  cursor: col-resize;
+}
+
+/* ===== Horizontal Rules ===== */
+.tiptap hr {
+  border: none;
+  height: 1px;
+  margin: 2.5em 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border) 20%,
+    var(--foreground) 50%,
+    var(--border) 80%,
+    transparent
+  );
+  opacity: 0.5;
+}
+
+/* ===== Placeholder ===== */
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: var(--muted-foreground);
+  pointer-events: none;
+  height: 0;
+  font-style: italic;
+  opacity: 0.6;
+}
+
+/* Placeholder for non-paragraph nodes */
+.tiptap .is-empty::before {
+  content: attr(data-placeholder);
+  color: var(--muted-foreground);
+  pointer-events: none;
+  font-style: italic;
+  opacity: 0.6;
+  float: left;
+  height: 0;
+}
+
+/* ===== Highlight ===== */
+.tiptap mark {
+  border-radius: 2px;
+  padding: 0.1em 0.2em;
+  box-decoration-break: clone;
+}
+
+.tiptap mark[data-color="default"],
+.tiptap mark:not([data-color]) {
+  background-color: oklch(0.85 0.15 90);
+}
+
+/* ===== Subscript and Superscript ===== */
+.tiptap sub {
+  font-size: 0.75em;
+  vertical-align: sub;
+}
+
+.tiptap sup {
+  font-size: 0.75em;
+  vertical-align: super;
+}
+
+/* ===== YouTube Embeds ===== */
+.tiptap div[data-youtube-video] {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  margin: 1.5em 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: #000;
+}
+
+.tiptap div[data-youtube-video] iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+/* ===== Gapcursor ===== */
+.tiptap .ProseMirror-gapcursor {
+  display: none;
+  pointer-events: none;
+  position: absolute;
+  margin: 0;
+}
+
+.tiptap .ProseMirror-gapcursor::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -2px;
+  width: 20px;
+  border-top: 1px solid var(--foreground);
+  animation: tiptapGapcursorBlink 1s step-end infinite;
+}
+
+@keyframes tiptapGapcursorBlink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.tiptap .ProseMirror-gapcursor:empty {
+  display: none;
+}
+
+.tiptap .ProseMirror-focused .ProseMirror-gapcursor {
+  display: block;
+}
+
+/* ===== Text Alignment ===== */
+.tiptap [data-text-align="center"] {
+  text-align: center;
+}
+
+.tiptap [data-text-align="right"] {
+  text-align: right;
+}
+
+.tiptap [data-text-align="justify"] {
+  text-align: justify;
+}
+
+/* ===== Color ===== */
+.tiptap [data-color] {
+  color: attr(data-color);
+}
+
+/* ===== ProseMirror Structure Helpers ===== */
+
+/* Remove bottom margin on last element */
+.tiptap > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Ensure list items don't get excessive bottom margin when last */
+.tiptap li:last-child {
+  margin-bottom: 0;
+}
+
+/* Ensure blockquote last child has no margin */
+.tiptap blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* ===== Responsive adjustments ===== */
+@media (max-width: 640px) {
+  .tiptap {
+    font-size: 1rem;
+  }
+
+  .tiptap h1 {
+    font-size: 1.75rem;
+  }
+
+  .tiptap h2 {
+    font-size: 1.375rem;
+  }
+
+  .tiptap h3 {
+    font-size: 1.1875rem;
+  }
+
+  .tiptap pre {
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    border-radius: 0.375rem;
+  }
+
+  .tiptap blockquote {
+    padding: 0.5rem 1rem;
+    margin: 1.25em 0;
+  }
+
+  .tiptap table td,
+  .tiptap table th {
+    padding: 0.5em 0.625em;
+    font-size: 0.875rem;
+    min-width: 4rem;
+  }
+
+  .tiptap img {
+    border-radius: 0.375rem;
+    margin: 1em auto;
+  }
+}
+
+/* ===== Dark mode adjustments ===== */
+.dark .tiptap pre {
+  background: #0f0f1a;
+  border-color: oklch(1 0 0 / 6%);
+}
+
+.dark .tiptap pre[data-language]::before {
+  color: oklch(0.5 0 0 / 60%);
+}
+
+.dark .tiptap pre .hljs-comment,
+.dark .tiptap pre .hljs-quote {
+  color: oklch(0.55 0.02 260);
+}
+
+.dark .tiptap pre .hljs-keyword,
+.dark .tiptap pre .hljs-selector-tag,
+.dark .tiptap pre .hljs-addition {
+  color: oklch(0.75 0.18 350);
+}
+
+.dark .tiptap pre .hljs-string,
+.dark .tiptap pre .hljs-attr,
+.dark .tiptap pre .hljs-template-variable {
+  color: oklch(0.75 0.15 150);
+}
+
+.dark .tiptap pre .hljs-number,
+.dark .tiptap pre .hljs-literal,
+.dark .tiptap pre .hljs-type,
+.dark .tiptap pre .hljs-built_in {
+  color: oklch(0.78 0.18 80);
+}
+
+.dark .tiptap pre .hljs-title,
+.dark .tiptap pre .hljs-section,
+.dark .tiptap pre .hljs-title\.function_ {
+  color: oklch(0.8 0.15 250);
+}
+
+.dark .tiptap pre .hljs-variable,
+.dark .tiptap pre .hljs-params {
+  color: oklch(0.7 0.05 250);
+}
+
+.dark .tiptap pre .hljs-meta {
+  color: oklch(0.55 0.05 250);
+}
+
+.dark .tiptap pre .hljs-regexp {
+  color: oklch(0.7 0.2 300);
+}
+
+.dark .tiptap pre .hljs-symbol,
+.dark .tiptap pre .hljs-bullet {
+  color: oklch(0.7 0.15 60);
+}
+
+.dark .tiptap pre .hljs-deletion {
+  color: oklch(0.7 0.2 25);
+}
+
+.dark .tiptap pre .hljs-name,
+.dark .tiptap pre .hljs-tag {
+  color: oklch(0.75 0.15 350);
+}
+
+.dark .tiptap pre .hljs-attribute {
+  color: oklch(0.75 0.15 150);
+}
+
+.dark .tiptap pre .hljs-punctuation {
+  color: oklch(0.55 0 0);
+}
+
+.dark .tiptap pre .hljs-property {
+  color: oklch(0.7 0.12 80);
+}
+
+.dark .tiptap pre .hljs-operator {
+  color: oklch(0.6 0.05 250);
+}
+
+.dark .tiptap img {
+  box-shadow: 0 1px 3px oklch(0 0 0 / 20%);
+}
+
+.dark .tiptap img:hover {
+  box-shadow: 0 4px 12px oklch(0 0 0 / 30%);
+}
